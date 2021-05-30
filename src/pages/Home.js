@@ -6,7 +6,8 @@ import {
   TextInput,
   Platform,
   FlatList,
-  Keyboard
+  Keyboard,
+  StatusBar,
 } from "react-native";
 import Button from "../components/Button";
 import SkillCard from "../components/SkillCard";
@@ -66,6 +67,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 30,
     paddingVertical: 70,
+    backgroundColor: 'black'
   },
   title: {
     color: "#fff",
