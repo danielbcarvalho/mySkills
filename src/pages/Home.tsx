@@ -7,21 +7,35 @@ import {
   Platform,
   FlatList,
   Keyboard,
-  StatusBar,
 } from "react-native";
 import Button from "../components/Button";
 import SkillCard from "../components/SkillCard";
 
+interface SkillData {
+  id: string;
+  name: string;
+}
+
 const Home = () => {
   const [newSkill, setNewSkill] = useState("");
-  const [mySkills, setMySkills] = useState([]);
+  const [mySkills, setMySkills] = useState<SkillData[]>([]);
   const [greeting, setGreeting] = useState("");
 
   const handleAddNewSkill = () => {
-    setMySkills((oldState) => [...oldState, newSkill]);
+    const data = {
+      id: String(new Date().getTime()),
+      name: newSkill,
+    }
+    setMySkills((oldState) => [...oldState, data]);
     setNewSkill('');
     Keyboard.dismiss()
   };
+
+  const handleRemoveSkill = (id: string) => {
+    setMySkills(oldState => oldState.filter(
+      (skill) => skill.id !== id
+    ))
+  }
 
   useEffect(() => {
     const currentHour = new Date().getHours();
@@ -47,15 +61,19 @@ const Home = () => {
         value={newSkill}
         onChangeText={setNewSkill}
       />
-      <Button onPress={handleAddNewSkill} />
+      <Button onPress={handleAddNewSkill} title="Add"/>
       <Text style={[styles.title, { marginVertical: 30 }]}>My Skills</Text>
       <FlatList 
         data={mySkills}
-        renderItem={({item}) => <SkillCard item={item} />}
-        keyExtractor={(item) => item}
+        renderItem={({item}) => (
+          <SkillCard 
+            skill={item.name} 
+            onPress={() => handleRemoveSkill(item.id)}  
+          />
+          )}
+        keyExtractor={(item) => item.id}
         showsVerticalScrollIndicator={false}
       />
-
     </View>
   );
 };
