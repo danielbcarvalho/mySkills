@@ -6,3 +6,4 @@
 * React Native CLI
 * FlatList
 * Date (getHours)
+* Add Ts to existing JS project
